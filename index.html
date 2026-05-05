@@ -6,57 +6,73 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #eef6f7;
-      text-align: center;
+      background: linear-gradient(to right, #e3f2fd, #ffffff);
       margin: 0;
+      text-align: center;
     }
 
     header {
-      background-color: #4CAF50;
+      background: #2f80ed;
       color: white;
-      padding: 20px;
-      font-size: 28px;
+      padding: 25px;
+      font-size: 30px;
     }
 
     header p {
       font-size: 14px;
-      margin-top: 5px;
     }
 
     .container {
-      padding: 20px;
+      padding: 30px;
     }
 
     button {
-      padding: 15px 25px;
+      padding: 12px 25px;
       margin: 10px;
-      font-size: 18px;
       border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      background-color: #4CAF50;
+      border-radius: 20px;
+      background: #2f80ed;
       color: white;
+      cursor: pointer;
+      transition: 0.3s;
     }
 
     button:hover {
-      background-color: #45a049;
+      background: #1c60c7;
     }
 
     .card {
       background: white;
       padding: 20px;
       margin: 20px auto;
-      width: 80%;
+      width: 70%;
       border-radius: 15px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      text-align: left;
     }
 
     input {
       padding: 10px;
       width: 70%;
-      margin: 10px;
-      border-radius: 8px;
+      border-radius: 10px;
       border: 1px solid #ccc;
+    }
+
+    #chatbox {
+      height: 150px;
+      overflow-y: auto;
+      background: #f9f9f9;
+      padding: 10px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    .user {
+      color: #2f80ed;
+    }
+
+    .bot {
+      color: #333;
     }
   </style>
 </head>
@@ -70,40 +86,35 @@
 
 <div class="container">
 
-  <h2>Choose Mode</h2>
+  <h2>Select Mode</h2>
   <button onclick="showStudent()">Student Mode</button>
   <button onclick="showParent()">Parent Mode</button>
 
-  <!-- STUDENT SECTION -->
+  <!-- STUDENT -->
   <div id="student" style="display:none;">
     <div class="card">
       <h2>Today's Focus</h2>
-      <p>📘 Read 5 simple words</p>
-      <p>🎧 Listen and repeat</p>
-      <p>🧠 Match word with image</p>
+      <p>• Read 5 words</p>
+      <p>• Listen and repeat</p>
+      <p>• Match words</p>
     </div>
 
     <div class="card">
-      <h2>Quick Help (AI Assistant)</h2>
+      <h2>AI Assistant</h2>
+
+      <div id="chatbox"></div>
+
       <input type="text" id="question" placeholder="Ask something...">
-      <br>
-      <button onclick="answer()">Ask</button>
-      <p id="response"></p>
+      <button onclick="send()">Send</button>
     </div>
   </div>
 
-  <!-- PARENT SECTION -->
+  <!-- PARENT -->
   <div id="parent" style="display:none;">
     <div class="card">
       <h2>Parent Guide</h2>
-      <p>🎥 Watch: Help your child read in 10 minutes</p>
-      <p>🎥 Watch: Daily learning routine</p>
-    </div>
-
-    <div class="card">
-      <h2>Progress</h2>
-      <p>Reading: ⭐⭐⭐☆☆</p>
-      <p>Listening: ⭐⭐⭐⭐☆</p>
+      <p>• Help your child read daily</p>
+      <p>• Use short activities</p>
     </div>
   </div>
 
@@ -120,21 +131,37 @@ function showParent() {
   document.getElementById("student").style.display = "none";
 }
 
-function answer() {
-  let q = document.getElementById("question").value.toLowerCase();
-  let res = "";
+function send() {
+  let input = document.getElementById("question");
+  let chat = document.getElementById("chatbox");
+  let userText = input.value;
 
+  if (userText === "") return;
+
+  chat.innerHTML += "<p class='user'><b>You:</b> " + userText + "</p>";
+
+  let reply = generateResponse(userText.toLowerCase());
+
+  setTimeout(() => {
+    chat.innerHTML += "<p class='bot'><b>AI:</b> " + reply + "</p>";
+    chat.scrollTop = chat.scrollHeight;
+  }, 500);
+
+  input.value = "";
+}
+
+function generateResponse(q) {
   if (q.includes("read")) {
-    res = "Try reading slowly and aloud.";
-  } else if (q.includes("word")) {
-    res = "A word is a group of letters with meaning.";
-  } else if (q.includes("help")) {
-    res = "I'm here to help! Try asking about reading or words 😊";
+    return "Try reading slowly and breaking words into smaller parts.";
+  } else if (q.includes("spell")) {
+    return "Say the word aloud and write it step by step.";
+  } else if (q.includes("difficult")) {
+    return "That's okay. Learning takes time. Try one small step.";
+  } else if (q.includes("hello") || q.includes("hi")) {
+    return "Hi! I'm here to help you 😊";
   } else {
-    res = "I will help you! Try asking something simple 😊";
+    return "I'm here to help! Try asking about reading or words.";
   }
-
-  document.getElementById("response").innerText = res;
 }
 </script>
 
