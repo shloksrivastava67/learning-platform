@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MyLearnLab</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #eef6f7;
+      text-align: center;
+      margin: 0;
+    }
+
+    header {
+      background-color: #4CAF50;
+      color: white;
+      padding: 20px;
+      font-size: 28px;
+    }
+
+    header p {
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+    .container {
+      padding: 20px;
+    }
+
+    button {
+      padding: 15px 25px;
+      margin: 10px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      margin: 20px auto;
+      width: 80%;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    input {
+      padding: 10px;
+      width: 70%;
+      margin: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  MyLearnLab
+  <p>Learning made simple for every child</p>
+</header>
+
+<div class="container">
+
+  <h2>Choose Mode</h2>
+  <button onclick="showStudent()">Student Mode</button>
+  <button onclick="showParent()">Parent Mode</button>
+
+  <!-- STUDENT SECTION -->
+  <div id="student" style="display:none;">
+    <div class="card">
+      <h2>Today's Focus</h2>
+      <p>📘 Read 5 simple words</p>
+      <p>🎧 Listen and repeat</p>
+      <p>🧠 Match word with image</p>
+    </div>
+
+    <div class="card">
+      <h2>Quick Help (AI Assistant)</h2>
+      <input type="text" id="question" placeholder="Ask something...">
+      <br>
+      <button onclick="answer()">Ask</button>
+      <p id="response"></p>
+    </div>
+  </div>
+
+  <!-- PARENT SECTION -->
+  <div id="parent" style="display:none;">
+    <div class="card">
+      <h2>Parent Guide</h2>
+      <p>🎥 Watch: Help your child read in 10 minutes</p>
+      <p>🎥 Watch: Daily learning routine</p>
+    </div>
+
+    <div class="card">
+      <h2>Progress</h2>
+      <p>Reading: ⭐⭐⭐☆☆</p>
+      <p>Listening: ⭐⭐⭐⭐☆</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showStudent() {
+  document.getElementById("student").style.display = "block";
+  document.getElementById("parent").style.display = "none";
+}
+
+function showParent() {
+  document.getElementById("parent").style.display = "block";
+  document.getElementById("student").style.display = "none";
+}
+
+function answer() {
+  let q = document.getElementById("question").value.toLowerCase();
+  let res = "";
+
+  if (q.includes("read")) {
+    res = "Try reading slowly and aloud.";
+  } else if (q.includes("word")) {
+    res = "A word is a group of letters with meaning.";
+  } else if (q.includes("help")) {
+    res = "I'm here to help! Try asking about reading or words 😊";
+  } else {
+    res = "I will help you! Try asking something simple 😊";
+  }
+
+  document.getElementById("response").innerText = res;
+}
+</script>
+
+</body>
+</html>
